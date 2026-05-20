@@ -7,7 +7,7 @@ use std::time::Duration;
 
 pub const AUTH_URL: &str = "https://www.linkedin.com/oauth/v2/authorization";
 pub const TOKEN_URL: &str = "https://www.linkedin.com/oauth/v2/accessToken";
-pub const SCOPE: &str = "openid profile email w_member_social r_organization_social r_network r_1st_connections r_jobs w_messages";
+pub const SCOPE: &str = "openid profile email w_member_social";
 pub const DEFAULT_TOKEN_TTL_SECS: i64 = 5_184_000;
 
 #[derive(Clone)]
@@ -197,7 +197,13 @@ async fn exchange_code(
     Ok(parsed)
 }
 
-fn find_free_port() -> Result<u16> {
+fn oauth_listen_port() -> Result<u16> {
+    if let Ok(raw) = std::env::var("LINKEDIN_OAUTH_PORT") {
+        let port: u16 = raw
+            .parse()
+            .map_err(|_| anyhow!("LINKEDIN_OAUTH_PORT must be a valid port number"))?;
+        return Ok(port);
+    }
     let listener = std::net::TcpListener::bind("127.0.0.1:0")?;
     Ok(listener.local_addr()?.port())
 }
@@ -206,8 +212,9 @@ pub async fn interactive_login(
     http: &reqwest::Client,
     creds: &Credentials,
 ) -> Result<StoredToken> {
-    let port = find_free_port()?;
-    let redirect_uri = format!("http://127.0.0.1:{port}/callback");
+    let port = oauth_listen_port()?;
+    let redirect_uri = std::env::var("LINKEDIN_REDIRECT_URI")
+        .unwrap_or_else(|_| format!("http://127.0.0.1:{port}/callback"));
     let state_param = uuid::Uuid::new_v4().to_string();
 
     let mut authorize = url::Url::parse(AUTH_URL)?;
