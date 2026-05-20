@@ -1,0 +1,8 @@
+/target
+local_scripts/
+local_scripts_*/
+npm-darwin-arm64/bin/linkedin-mcp
+npm-darwin-x64/bin/linkedin-mcp
+npm-linux-x64/bin/linkedin-mcp
+npm-linux-arm64/bin/linkedin-mcp
+npm-win32-x64/bin/linkedin-mcp.exe

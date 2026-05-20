@@ -1,0 +1,16 @@
+{
+  "name": "@kembec/linkedin-mcp-linux-arm64",
+  "version": "0.1.0",
+  "description": "linkedin-mcp binary for linux arm64",
+  "os": ["linux"],
+  "cpu": ["arm64"],
+  "bin": {
+    "linkedin-mcp": "bin/linkedin-mcp"
+  },
+  "files": ["bin/linkedin-mcp", "README.md"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kembec/linkedin-mcp.git"
+  },
+  "license": "MIT"
+}

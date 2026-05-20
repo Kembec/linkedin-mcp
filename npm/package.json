@@ -1,0 +1,35 @@
+{
+  "name": "@kembec/linkedin-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for LinkedIn — read profile, publish posts, explore network. Single binary, no runtime required.",
+  "bin": {
+    "linkedin-mcp": "./index.js"
+  },
+  "main": "./index.js",
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "optionalDependencies": {
+    "@kembec/linkedin-mcp-darwin-arm64": "0.1.0",
+    "@kembec/linkedin-mcp-darwin-x64": "0.1.0",
+    "@kembec/linkedin-mcp-linux-x64": "0.1.0",
+    "@kembec/linkedin-mcp-linux-arm64": "0.1.0",
+    "@kembec/linkedin-mcp-win32-x64": "0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kembec/linkedin-mcp.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "linkedin",
+    "oauth2",
+    "social-media"
+  ]
+}
