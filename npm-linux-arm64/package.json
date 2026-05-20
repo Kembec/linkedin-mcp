@@ -1,6 +1,6 @@
 {
   "name": "@kembec/linkedin-mcp-linux-arm64",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "linkedin-mcp binary for linux arm64",
   "os": ["linux"],
   "cpu": ["arm64"],

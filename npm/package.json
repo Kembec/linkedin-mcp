@@ -1,6 +1,6 @@
 {
   "name": "@kembec/linkedin-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MCP server for LinkedIn — read profile, publish posts, explore network. Single binary, no runtime required.",
   "bin": {
     "linkedin-mcp": "./index.js"
