@@ -1,0 +1,27 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      LINKEDIN_CLIENT_ID:
+        type: string
+        description: "OAuth 2.0 Client ID from LinkedIn Developer Portal"
+      LINKEDIN_CLIENT_SECRET:
+        type: string
+        description: "OAuth 2.0 Client Secret from LinkedIn Developer Portal"
+      LINKEDIN_OAUTH_PORT:
+        type: string
+        description: "Fixed local port for OAuth callback (optional, default dynamic). Set to 9876 if you registered http://127.0.0.1:9876/callback"
+    required:
+      - LINKEDIN_CLIENT_ID
+      - LINKEDIN_CLIENT_SECRET
+  commandFunction: |
+    (config) => ({
+      command: "npx",
+      args: ["-y", "@kembec/linkedin-mcp"],
+      env: {
+        LINKEDIN_CLIENT_ID: config.LINKEDIN_CLIENT_ID,
+        LINKEDIN_CLIENT_SECRET: config.LINKEDIN_CLIENT_SECRET,
+        ...(config.LINKEDIN_OAUTH_PORT ? { LINKEDIN_OAUTH_PORT: config.LINKEDIN_OAUTH_PORT } : {})
+      }
+    })
