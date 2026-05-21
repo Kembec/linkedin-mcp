@@ -10,7 +10,7 @@ use crate::tools::{
 
 pub async fn create_post(state: Arc<ServerState>, args: Value) -> Result<Value> {
     let text = require_str(&args, "text")?;
-    let visibility = opt_str(&args, "visibility")?.unwrap_or("PUBLIC");
+    let visibility = opt_str(&args, "visibility")?.unwrap_or("CONNECTIONS");
     if !VALID_VISIBILITY.contains(&visibility) {
         return Err(invalid_params(format!(
             "visibility must be one of {:?}, got '{visibility}'",
@@ -42,6 +42,35 @@ pub async fn get_own_posts(state: Arc<ServerState>, args: Value) -> Result<Value
         .ok_or_else(|| invalid_params("could not resolve member sub from profile"))?;
     let author_urn = format!("urn:li:person:{sub}");
     client.get_own_posts(&author_urn, count, start).await
+}
+
+pub async fn create_article(state: Arc<ServerState>, args: Value) -> Result<Value> {
+    let title = require_str(&args, "title")?;
+    let content = require_str(&args, "content")?;
+    let commentary = opt_str(&args, "commentary")?.unwrap_or("");
+    let visibility = opt_str(&args, "visibility")?.unwrap_or("CONNECTIONS");
+    if !VALID_VISIBILITY.contains(&visibility) {
+        return Err(invalid_params(format!(
+            "visibility must be one of {:?}, got '{visibility}'",
+            VALID_VISIBILITY
+        )));
+    }
+    let draft = args
+        .get("draft")
+        .and_then(|v| v.as_bool())
+        .unwrap_or(true);
+    let account = account_name(&args);
+    let token = token_for(&state, account).await?;
+    let client = LinkedInClient::new(state.http.clone(), token);
+    let profile = client.get_userinfo().await?;
+    let sub = profile
+        .get("sub")
+        .and_then(|v| v.as_str())
+        .ok_or_else(|| invalid_params("could not resolve member sub from profile"))?;
+    let author_urn = format!("urn:li:person:{sub}");
+    client
+        .create_article(&author_urn, title, content, commentary, visibility, draft)
+        .await
 }
 
 pub async fn delete_post(state: Arc<ServerState>, args: Value) -> Result<Value> {

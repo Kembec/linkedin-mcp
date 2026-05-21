@@ -140,6 +140,35 @@ impl LinkedInClient {
             .await
     }
 
+    pub async fn create_article(
+        &self,
+        author_urn: &str,
+        title: &str,
+        content: &str,
+        commentary: &str,
+        visibility: &str,
+        draft: bool,
+    ) -> Result<Value> {
+        let member_network_visibility = match visibility {
+            "CONNECTIONS" => "CONNECTIONS",
+            "LOGGED_IN" => "LOGGED_IN",
+            _ => "PUBLIC",
+        };
+        let lifecycle_state = if draft { "DRAFT" } else { "PUBLISHED" };
+        let body = json!({
+            "author": author_urn,
+            "lifecycleState": lifecycle_state,
+            "title": title,
+            "content": content,
+            "commentary": commentary,
+            "visibility": {
+                "com.linkedin.ugc.MemberNetworkVisibility": member_network_visibility
+            }
+        });
+        self.request(Method::POST, "/v2/articles", &[], Some(&body))
+            .await
+    }
+
     pub async fn send_message(&self, recipient_urn: &str, message_body: &str) -> Result<Value> {
         let body = json!({
             "recipients": [recipient_urn],

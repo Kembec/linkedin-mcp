@@ -8,7 +8,7 @@ use crate::tools_network::{
     get_company, get_connections, search_jobs, search_people, send_message,
 };
 use crate::tools_profile::get_profile;
-use crate::tools_social::{create_post, delete_post, get_own_posts};
+use crate::tools_social::{create_article, create_post, delete_post, get_own_posts};
 
 pub const DEFAULT_ACCOUNT: &str = "default";
 pub const VALID_VISIBILITY: &[&str] = &["PUBLIC", "CONNECTIONS", "LOGGED_IN"];
@@ -36,7 +36,7 @@ pub fn tools_list() -> Value {
                     "visibility": {
                         "type": "string",
                         "enum": ["PUBLIC", "CONNECTIONS", "LOGGED_IN"],
-                        "description": "Who can see the post (default PUBLIC)."
+                        "description": "Who can see the post (default CONNECTIONS)."
                     },
                     "account": { "type": "string" }
                 },
@@ -54,6 +54,27 @@ pub fn tools_list() -> Value {
                     "start": { "type": "integer", "minimum": 0, "default": 0 },
                     "account": { "type": "string" }
                 },
+                "additionalProperties": false
+            }
+        },
+        {
+            "name": "create-article",
+            "description": "Publish a long-form article to LinkedIn (appears in /recent-activity/articles/). Requires w_articles scope — re-authenticate if missing.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "title": { "type": "string", "description": "Article title." },
+                    "content": { "type": "string", "description": "Article body as HTML (e.g. <p>text</p><h2>Section</h2>)." },
+                    "commentary": { "type": "string", "description": "Short post text shown alongside the article in the feed." },
+                    "visibility": {
+                        "type": "string",
+                        "enum": ["PUBLIC", "CONNECTIONS", "LOGGED_IN"],
+                        "description": "Who can see it (default CONNECTIONS)."
+                    },
+                    "draft": { "type": "boolean", "description": "Save as draft instead of publishing (default true)." },
+                    "account": { "type": "string" }
+                },
+                "required": ["title", "content"],
                 "additionalProperties": false
             }
         },
@@ -156,6 +177,7 @@ pub async fn call(state: Arc<ServerState>, name: &str, args: Value) -> Result<Va
     match name {
         "get-profile" => get_profile(state, args).await,
         "create-post" => create_post(state, args).await,
+        "create-article" => create_article(state, args).await,
         "get-own-posts" => get_own_posts(state, args).await,
         "delete-post" => delete_post(state, args).await,
         "get-company" => get_company(state, args).await,

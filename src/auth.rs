@@ -7,7 +7,7 @@ use std::time::Duration;
 
 pub const AUTH_URL: &str = "https://www.linkedin.com/oauth/v2/authorization";
 pub const TOKEN_URL: &str = "https://www.linkedin.com/oauth/v2/accessToken";
-pub const SCOPE: &str = "openid profile email w_member_social";
+pub const SCOPE: &str = "openid profile email w_member_social w_articles";
 pub const DEFAULT_TOKEN_TTL_SECS: i64 = 5_184_000;
 
 #[derive(Clone)]
