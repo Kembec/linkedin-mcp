@@ -13,10 +13,7 @@ pub struct LinkedInClient {
 
 impl LinkedInClient {
     pub fn new(http: reqwest::Client, access_token: String) -> Self {
-        Self {
-            http,
-            access_token,
-        }
+        Self { http, access_token }
     }
 
     fn headers(&self) -> Result<HeaderMap> {
@@ -42,7 +39,10 @@ impl LinkedInClient {
         body: Option<&Value>,
     ) -> Result<Value> {
         let url = format!("{API_BASE}{path}");
-        let mut req = self.http.request(method.clone(), &url).headers(self.headers()?);
+        let mut req = self
+            .http
+            .request(method.clone(), &url)
+            .headers(self.headers()?);
         if !query.is_empty() {
             req = req.query(query);
         }
@@ -65,8 +65,7 @@ impl LinkedInClient {
     }
 
     pub async fn get_userinfo(&self) -> Result<Value> {
-        self.request(Method::GET, "/v2/userinfo", &[], None)
-            .await
+        self.request(Method::GET, "/v2/userinfo", &[], None).await
     }
 
     pub async fn create_ugc_post(
@@ -99,12 +98,7 @@ impl LinkedInClient {
             .await
     }
 
-    pub async fn get_own_posts(
-        &self,
-        author_urn: &str,
-        count: i64,
-        start: i64,
-    ) -> Result<Value> {
+    pub async fn get_own_posts(&self, author_urn: &str, count: i64, start: i64) -> Result<Value> {
         let authors_param = format!("List({author_urn})");
         let query = [
             ("q", "authors".to_string()),

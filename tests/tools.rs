@@ -10,22 +10,19 @@ mod linkedin;
 mod mcp;
 #[path = "../src/models.rs"]
 mod models;
-#[path = "../src/tools_profile.rs"]
-mod tools_profile;
-#[path = "../src/tools_social.rs"]
-mod tools_social;
 #[path = "../src/tools.rs"]
 mod tools;
 #[path = "../src/tools_network.rs"]
 mod tools_network;
+#[path = "../src/tools_profile.rs"]
+mod tools_profile;
+#[path = "../src/tools_social.rs"]
+mod tools_social;
 
 fn state() -> Arc<mcp::ServerState> {
     std::env::set_var("LINKEDIN_CLIENT_ID", "test-client-id");
     std::env::set_var("LINKEDIN_CLIENT_SECRET", "test-client-secret");
-    let tmp = std::env::temp_dir().join(format!(
-        "linkedin-mcp-test-tools-{}",
-        std::process::id()
-    ));
+    let tmp = std::env::temp_dir().join(format!("linkedin-mcp-test-tools-{}", std::process::id()));
     std::fs::create_dir_all(&tmp).unwrap();
     let creds = auth::load_credentials().expect("credentials");
     Arc::new(mcp::ServerState {
@@ -60,15 +57,13 @@ fn test_token_path_sanitizes_special_chars() {
 
 #[tokio::test]
 async fn test_invalid_params_require_str_missing() {
-    let err = tools::require_str(&json!({}), "text")
-        .expect_err("should fail");
+    let err = tools::require_str(&json!({}), "text").expect_err("should fail");
     assert!(is_invalid_params(&err));
 }
 
 #[tokio::test]
 async fn test_invalid_params_require_str_empty() {
-    let err = tools::require_str(&json!({ "text": "" }), "text")
-        .expect_err("should fail");
+    let err = tools::require_str(&json!({ "text": "" }), "text").expect_err("should fail");
     assert!(format!("{err}").contains("must not be empty"));
 }
 

@@ -4,9 +4,7 @@ use std::sync::Arc;
 
 use crate::linkedin::LinkedInClient;
 use crate::mcp::ServerState;
-use crate::tools::{
-    account_name, map_partner_error, opt_i64, require_str, token_for,
-};
+use crate::tools::{account_name, map_partner_error, opt_i64, require_str, token_for};
 
 pub async fn get_connections(state: Arc<ServerState>, args: Value) -> Result<Value> {
     let start = opt_i64(&args, "start")?.unwrap_or(0).max(0);

@@ -26,9 +26,7 @@ pub async fn create_post(state: Arc<ServerState>, args: Value) -> Result<Value> 
         .and_then(|v| v.as_str())
         .ok_or_else(|| invalid_params("could not resolve member sub from profile"))?;
     let author_urn = format!("urn:li:person:{sub}");
-    client
-        .create_ugc_post(&author_urn, text, visibility)
-        .await
+    client.create_ugc_post(&author_urn, text, visibility).await
 }
 
 pub async fn get_own_posts(state: Arc<ServerState>, args: Value) -> Result<Value> {

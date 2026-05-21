@@ -4,7 +4,9 @@ use std::sync::Arc;
 
 use crate::auth;
 use crate::mcp::ServerState;
-use crate::tools_network::{get_company, get_connections, search_jobs, search_people, send_message};
+use crate::tools_network::{
+    get_company, get_connections, search_jobs, search_people, send_message,
+};
 use crate::tools_profile::get_profile;
 use crate::tools_social::{create_post, delete_post, get_own_posts};
 
@@ -199,11 +201,13 @@ pub fn opt_i64(args: &Value, field: &str) -> Result<Option<i64>> {
             .as_i64()
             .ok_or_else(|| invalid_params(format!("field '{field}' must be an integer")))
             .map(Some),
-        _ => Err(invalid_params(format!("field '{field}' must be an integer"))),
+        _ => Err(invalid_params(format!(
+            "field '{field}' must be an integer"
+        ))),
     }
 }
 
-pub fn account_name<'a>(args: &'a Value) -> &'a str {
+pub fn account_name(args: &Value) -> &str {
     args.get("account")
         .and_then(|v| v.as_str())
         .filter(|s| !s.is_empty())
@@ -211,13 +215,7 @@ pub fn account_name<'a>(args: &'a Value) -> &'a str {
 }
 
 pub async fn token_for(state: &ServerState, account: &str) -> Result<String> {
-    auth::get_token(
-        &state.http,
-        &state.token_dir,
-        &state.creds,
-        account,
-    )
-    .await
+    auth::get_token(&state.http, &state.token_dir, &state.creds, account).await
 }
 
 pub fn partner_access_hint(scope: &str) -> String {

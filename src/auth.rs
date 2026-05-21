@@ -37,7 +37,10 @@ impl fmt::Debug for StoredToken {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("StoredToken")
             .field("access_token", &"[REDACTED]")
-            .field("refresh_token", &self.refresh_token.as_ref().map(|_| "[REDACTED]"))
+            .field(
+                "refresh_token",
+                &self.refresh_token.as_ref().map(|_| "[REDACTED]"),
+            )
             .field("expiry", &self.expiry)
             .field("scope", &self.scope)
             .finish()
@@ -208,10 +211,7 @@ fn oauth_listen_port() -> Result<u16> {
     Ok(listener.local_addr()?.port())
 }
 
-pub async fn interactive_login(
-    http: &reqwest::Client,
-    creds: &Credentials,
-) -> Result<StoredToken> {
+pub async fn interactive_login(http: &reqwest::Client, creds: &Credentials) -> Result<StoredToken> {
     let port = oauth_listen_port()?;
     let redirect_uri = std::env::var("LINKEDIN_REDIRECT_URI")
         .unwrap_or_else(|_| format!("http://127.0.0.1:{port}/callback"));

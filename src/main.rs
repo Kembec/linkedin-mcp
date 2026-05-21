@@ -48,13 +48,7 @@ async fn cmd_auth() -> Result<()> {
         .nth(2)
         .unwrap_or_else(|| "default".to_string());
     eprintln!("Authenticating account '{account}'...");
-    let token = auth::get_token(
-        &state.http,
-        &state.token_dir,
-        &state.creds,
-        &account,
-    )
-    .await?;
+    let token = auth::get_token(&state.http, &state.token_dir, &state.creds, &account).await?;
     eprintln!("Authentication successful for account '{account}'.");
     let _ = token;
     Ok(())
