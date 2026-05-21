@@ -1,6 +1,6 @@
 {
   "name": "@kembec/linkedin-mcp-win32-x64",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "linkedin-mcp binary for win32 x64",
   "os": ["win32"],
   "cpu": ["x64"],
