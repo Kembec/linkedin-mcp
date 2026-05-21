@@ -1,21 +1,22 @@
 {
   "name": "@kembec/linkedin-mcp",
-  "version": "0.1.7",
-  "description": "MCP server for LinkedIn — read profile, publish posts, explore network. Single binary, no runtime required.",
+  "version": "0.1.8",
+  "description": "MCP server for LinkedIn \u2014 read profile, publish posts, explore network. Single binary, no runtime required.",
   "bin": {
     "linkedin-mcp": "./index.js"
   },
   "main": "./index.js",
   "files": [
     "index.js",
-    "README.md"
+    "README.md",
+    "smithery.yaml"
   ],
   "optionalDependencies": {
-    "@kembec/linkedin-mcp-darwin-arm64": "0.1.7",
-    "@kembec/linkedin-mcp-darwin-x64": "0.1.7",
-    "@kembec/linkedin-mcp-linux-x64": "0.1.7",
-    "@kembec/linkedin-mcp-linux-arm64": "0.1.7",
-    "@kembec/linkedin-mcp-win32-x64": "0.1.7"
+    "@kembec/linkedin-mcp-darwin-arm64": "0.1.8",
+    "@kembec/linkedin-mcp-darwin-x64": "0.1.8",
+    "@kembec/linkedin-mcp-linux-x64": "0.1.8",
+    "@kembec/linkedin-mcp-linux-arm64": "0.1.8",
+    "@kembec/linkedin-mcp-win32-x64": "0.1.8"
   },
   "repository": {
     "type": "git",
