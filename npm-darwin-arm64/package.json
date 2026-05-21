@@ -1,6 +1,6 @@
 {
   "name": "@kembec/linkedin-mcp-darwin-arm64",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "linkedin-mcp binary for darwin arm64",
   "os": ["darwin"],
   "cpu": ["arm64"],
